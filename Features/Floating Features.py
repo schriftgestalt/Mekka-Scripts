@@ -8,7 +8,11 @@ import vanilla, traceback
 
 class FeatureActivator( object ):
 	def __init__( self ):
-		featurelist = [ f.name for f in Glyphs.font.features ]
+		try: # new API in 2.5 1105
+			featurelist = Glyphs.currentDocument.windowController().activeEditViewController().allFeatures()
+		except:
+			featurelist = [ f.name for f in Glyphs.font.features ]
+		
 		numOfFeatures = len( featurelist )
 		
 		self.w = vanilla.FloatingWindow( (80, 30+numOfFeatures*20 ), "", autosaveName="com.mekkablue.FeatureActivator.mainwindow" )
